@@ -33,7 +33,20 @@ def _binary_search(mylist, key, left, right):
 	  index of key in mylist, or -1 if not present.
 	"""
 	### TODO
-
+	
+	while left <= right:
+		middle = (right+left)/2
+		mid = int(middle)
+		if mylist[mid] == key:
+			return mid
+		elif key > mylist[mid]:
+			left = mid + 1
+		else:
+			right = mid - 1
+	if mylist[mid] == key:
+		return mid
+	else:
+		return -1
 	###
 
 
@@ -58,6 +71,10 @@ def time_search(search_fn, mylist, key):
 	  search function on this input.
 	"""
 	### TODO
+	start_time = time.time()*100
+	search_fn(mylist, key)
+	end_time = time.time()*100
+	return end_time - start_time
 
 	###
 
@@ -77,8 +94,17 @@ def compare_search(sizes=[1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7]):
 	  for each method to run on each value of n
 	"""
 	### TODO
-
+	tuple_list = []
+	for i,v in enumerate(sizes):
+		list = []
+		for x in  range(int(v)):
+			list.append(x)
+		tuple = (len(list),time_search(linear_search,list,-1),time_search(binary_search,list,-1))
+		tuple_list.append(tuple)
+		
+	return tuple_list
 	###
+
 
 def print_results(results):
 	""" done """
@@ -87,3 +113,4 @@ def print_results(results):
 							floatfmt=".3f",
 							tablefmt="github"))
 
+print_results(compare_search())
